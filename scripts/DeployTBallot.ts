@@ -5,6 +5,7 @@ dotenv.config();
 
 const PROPOSALS = ["Proposal A", "Proposal B", "Proposal C"];
 //const tokenContractAddress = MyToken__factory;
+//const blockTarget = 
 
 function convertToBytes32(proposal: string[]): string[] {
     return proposal.map((p) => ethers.utils.formatBytes32String(p));
@@ -46,15 +47,16 @@ async function main() {
     // check the constructor of the contract
     const convertedProposals = convertToBytes32(proposals);
     console.log("Deploying Ballot contract ...");
-    // this sends the transaction to the blockchain
-    const ballotContract = await ballotContractFactory.deploy(convertedProposals, tokenCOntractAddress, blockTarget); // missing contractAddress and targetBlockNumber
+    // sending the transaction to the blockchain
+    const ballotContract = await ballotContractFactory.deploy(convertedProposals, 
+        tokenContractAddress, 
+        blockTarget); // missing contractAddress and targetBlockNumber
     console.log("Awaiting transaction to be mined ...");
-    // this waits for the transaction to be mined
+    // waiting for the transaction to be mined
     const transactionReceipt = await ballotContract.deployTransaction.wait();
     const contractAddress = transactionReceipt.contractAddress;
     const blockNumber = transactionReceipt.blockNumber;
     console.log(`Ballot contract deployed at ${contractAddress} and block number ${blockNumber}`);
-
 
 }
 
