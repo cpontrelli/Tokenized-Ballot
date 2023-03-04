@@ -1,9 +1,14 @@
+// need have setup for goerly 
 import { ethers } from "hardhat";
 import { MyToken__factory } from "../typechain-types";
 
 const MINT_VALUE = ethers.utils.parseEther("10");
 
 async function main() {
+    // maybe write down our wallet addresses directly as a const?
+   // const deployer = xxxxx; // who will deploy??
+   // const account1 = 0xCb2ED59c9427a43f72e2D31e1a51b33209AaEc96; //Ilya
+    // const account2 = ??
     const [deployer, account1, account2] = await ethers.getSigners();
     const contractFactory = new MyToken__factory(deployer);
     const contract = await contractFactory.deploy();
