@@ -49,7 +49,7 @@ async function main() {
     console.log("Deploying Ballot contract ...");
     // sending the transaction to the blockchain
     const ballotContract = await ballotContractFactory.deploy(convertedProposals, 
-        tokenContractAddress, 
+        tokenContractAddress,
         blockTarget); // missing contractAddress and targetBlockNumber
     console.log("Awaiting transaction to be mined ...");
     // waiting for the transaction to be mined

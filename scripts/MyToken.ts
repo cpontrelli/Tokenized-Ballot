@@ -18,15 +18,15 @@ async function main() {
     await mintTx.wait();
     
     const account1Balance = await contract.balanceOf(account1.address);
-    console.log(account1Balance);
+    console.log(`The deployer account has ${ethers.utils.formatEther(account1Balance)} tokens`);
     let account1VotingPower = await contract.getVotes(account1.address);
-    console.log(account1VotingPower);
+    console.log(`The deployer account has initial Voting power of ${ethers.utils.formatEther(account1VotingPower)} units`);
     
     const delegateTx = await contract.connect(account1).delegate(account1.address);
     await delegateTx.wait();
 
     account1VotingPower = await contract.getVotes(account1.address);
-    console.log(account1VotingPower);
+    console.log(`The deployer account has updated Voting power of ${ethers.utils.formatEther(account1VotingPower)} units`);
 
 
 };
