@@ -22,12 +22,13 @@ async function main() {
         console.log(`Proposal N. ${index + 1}: ${element}`);
     });
 
-     // setup for access
+     // setup for wallet access
     const privateKey = process.env.PRIVATE_KEY;
     if (!privateKey || privateKey.length <= 0) {
         throw new Error("No private key found");
     }
 
+    // setup for provider access
     const alchemyApiKey = process.env.ALCHEMY_API_KEY;
     if (!alchemyApiKey || alchemyApiKey.length <= 0) {
         throw new Error("No Alchemy API key found");
@@ -39,13 +40,14 @@ async function main() {
     const balance = await signer.getBalance();
     console.log(`The account ${signer.address} has a balance of ${balance} wei`);
 
-    // Ballot__factory is picked directly, rather than returned from search
+   
+    // Ballot__factory is picked directly from typechain-types
     const ballotContractFactory = new Ballot__factory(signer);
     // check the constructor of the contract
     const convertedProposals = convertToBytes32(proposals);
     console.log("Deploying Ballot contract ...");
     // this sends the transaction to the blockchain
-   /// const ballotContract = await ballotContractFactory.deploy(convertedProposals);
+    const ballotContract = await ballotContractFactory.deploy(convertedProposals, tokenCOntractAddress, blockTarget); // missing contractAddress and targetBlockNumber
     console.log("Awaiting transaction to be mined ...");
     // this waits for the transaction to be mined
     const transactionReceipt = await ballotContract.deployTransaction.wait();
