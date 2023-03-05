@@ -56,13 +56,13 @@ async function main() {
     await transferTx.wait();
     const account3Balance = await contract.balanceOf(account3);
 
-    const account4Balance = await contract.balanceOf(account4);
     transferTx = await contract.connect(deployer).transfer(account4, MINT_VALUE.div(5));
     await transferTx.wait();
+    const account4Balance = await contract.balanceOf(account4);
 
-    const account5Balance = await contract.balanceOf(account5);
     transferTx = await contract.connect(deployer).transfer(account5, MINT_VALUE.div(5));
     await transferTx.wait();
+    const account5Balance = await contract.balanceOf(account5);
     
     // self delegation for deployer
     const delegateTx = await contract.connect(deployer).delegate(deployer.address);
