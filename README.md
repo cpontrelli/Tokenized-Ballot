@@ -6,5 +6,14 @@ Try running some of the following tasks:
 yarn hardhat 
 yarn hardhat compile
 yarn hardhat test
+
+deploy token contract:
 yarn run ts-node --files ./scripts/MyToken.ts
+
+delegate votes:
+yarn run ts-node --files ./scripts/Delegate.ts "token_contract_address" "delegate_address"
+
+deploy ballot contractL
+yarn run ts-node --files ./scripts/DeployTBallot.ts
+
 ```
