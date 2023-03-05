@@ -33,8 +33,8 @@ async function main() {
     const contractFactory = new MyToken__factory(deployer);
     const contract = await contractFactory.deploy();
     const txReceipt = await contract.deployed();
-    const contractAddress = txReceipt.contractAddress; //Undefined
-    const blockNumber = txReceipt.blockNumber; //Undefined
+    const contractAddress = contract.address; //Undefined
+    const blockNumber = await provider.getBlockNumber() ; //Undefined
     console.log(`The ERC20 tokencontract was deployed at address ${contractAddress} on the block number ${blockNumber}`)
 
     const mintTx = await contract.mint(deployer.address, MINT_VALUE);
