@@ -4,8 +4,8 @@ import { Ballot__factory, MyToken__factory } from "../typechain-types";
 dotenv.config();
 
 const PROPOSALS = ["Proposal A", "Proposal B", "Proposal C"];
-//const tokenContractAddress = MyToken__factory;
-//const blockTarget = 
+const tokenContractAddress: string = "0xDC05b06677CdE4660f5D3fCfED7Ac5Ab09693e2D";
+const blockTarget: string =  "8603619"; // makes sence if the votig power was activated
 
 function convertToBytes32(proposal: string[]): string[] {
     return proposal.map((p) => ethers.utils.formatBytes32String(p));
@@ -23,7 +23,7 @@ async function main() {
         console.log(`Proposal N. ${index + 1}: ${element}`);
     });
 
-     // setup for wallet access
+     // setup for wallet access of deployer
     const privateKey = process.env.PRIVATE_KEY;
     if (!privateKey || privateKey.length <= 0) {
         throw new Error("No private key found");
@@ -50,8 +50,8 @@ async function main() {
     // sending the transaction to the blockchain
     const ballotContract = await ballotContractFactory.deploy(convertedProposals, 
         tokenContractAddress,
-        blockTarget); // missing contractAddress and targetBlockNumber
-    console.log("Awaiting transaction to be mined ...");
+        blockTarget); 
+    console.log("Awaiting Ballot contract to be deployed ...");
     // waiting for the transaction to be mined
     const transactionReceipt = await ballotContract.deployTransaction.wait();
     const contractAddress = transactionReceipt.contractAddress;
