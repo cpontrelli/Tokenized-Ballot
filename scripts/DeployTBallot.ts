@@ -5,7 +5,6 @@ dotenv.config();
 
 const PROPOSALS = ["Proposal A", "Proposal B", "Proposal C"];
 const tokenContractAddress: string = "0xDC05b06677CdE4660f5D3fCfED7Ac5Ab09693e2D";
-const blockTarget: string =  "8603619"; // makes sence if the votig power was activated
 
 function convertToBytes32(proposal: string[]): string[] {
     return proposal.map((p) => ethers.utils.formatBytes32String(p));
@@ -48,6 +47,7 @@ async function main() {
     const convertedProposals = convertToBytes32(proposals);
     console.log("Deploying Ballot contract ...");
     // sending the transaction to the blockchain
+    const blockTarget = await provider.getBlockNumber();
     const ballotContract = await ballotContractFactory.deploy(convertedProposals, 
         tokenContractAddress,
         blockTarget); 
