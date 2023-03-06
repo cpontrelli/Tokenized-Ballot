@@ -36,7 +36,7 @@ async function main() {
     const votingPower = await contract.votingPower(voter);
     console.log(
         `${voter} has ${votingPower} voting power.`
-    );
+    ); 
 
 };
 

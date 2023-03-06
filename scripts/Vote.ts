@@ -3,9 +3,14 @@ import * as dotenv from "dotenv";
 import { Ballot__factory, MyToken__factory } from "../typechain-types";
 dotenv.config();
 
+function convertToBytes32(proposal: string[]): string[] {
+    return proposal.map((p) => ethers.utils.formatBytes32String(p));
+}
+
 async function main() {
 
-const ballotContractAddress: string = "0xDC05b06677CdE4660f5D3fCfED7Ac5Ab09693e2D";
+// const ballotTokenAddress: string = "0xDC05b06677CdE4660f5D3fCfED7Ac5Ab09693e2D";
+// const ballotContractAddress: string = "0xceF3DA0f3F6f202e263BE3F4C78aebC61AF1E699";
 
  // setup for wallet access
  const privateKey = process.env.PRIVATE_KEY;
@@ -22,28 +27,27 @@ const ballotContractAddress: string = "0xDC05b06677CdE4660f5D3fCfED7Ac5Ab09693e2
  const provider = new ethers.providers.AlchemyProvider("goerli", alchemyApiKey);
  const wallet = new ethers.Wallet(privateKey, provider);
  const voter = wallet.connect(provider);
- const balance = await voter.getBalance();
- console.log(`The account ${voter.address} has a balance of ${balance} wei`);
-
-// Ballot__factory is picked directly from typechain-types
-const ballotContractFactory = new Ballot__factory(voter);
+ const balanceInWei = await voter.getBalance();
+ const balanceInEther = await ethers.utils.formatEther(balanceInWei);
+ console.log(`The account ${voter.address} has a balance of ${balanceInEther} ETH`);
 
 const args = process.argv;
 
-const contractAddress = args[2];
-if(!contractAddress || contractAddress.length <= 0) 
-    throw new Error("Missing argument: contract addresses");
+// set the ballot contract address for participate on voting
+const ballotContractAddress = args[2];
+if(!ballotContractAddress || ballotContractAddress.length <= 0) 
+    throw new Error("Missing argument: contract address");
 
-const vote = args[3];
-    if (!vote || vote.length <= 0) throw new Error("Missing argument: vote");
-    console.log(`Casting vote for proposal: ${vote}`);
+const ballotContract = new Ballot__factory(voter).attach(ballotContractAddress);
 
-const ballotContract = new Ballot__factory(voter).attach(contractAddress);
+// set arguments for voting: proposal number and voting pover to give on vote
+const proposal = args[3];
+const power = args[4];
 
 // voting
-const voteTx = await ballotContract.connect(voter).vote("Proposal A", 1);
+const voteTx = await ballotContract.connect(voter).vote(proposal, power);
 await voteTx.wait();
-console.log(`Your vote on Ballot was accepted`);
+console.log(`You have voted on Proposal ${proposal} with power of ${power} tokens \n Your votes has been accepted`);
 
 }
 

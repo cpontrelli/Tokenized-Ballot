@@ -40,7 +40,12 @@ async function main() {
     const balance = await signer.getBalance();
     console.log(`The account ${signer.address} has a balance of ${balance} wei`);
 
-   
+    // // settig agrument for token contract address
+    // const args = process.argv;
+    // const tokenContractAddress = args[3];
+    // if(!tokenContractAddress || tokenContractAddress.length <= 0) 
+    //     throw new Error("Missing argument: ERC20 voting contract address");
+
     // Ballot__factory is picked directly from typechain-types
     const ballotContractFactory = new Ballot__factory(signer);
     // check the constructor of the contract
@@ -56,7 +61,7 @@ async function main() {
     const transactionReceipt = await ballotContract.deployTransaction.wait();
     const contractAddress = transactionReceipt.contractAddress;
     const blockNumber = transactionReceipt.blockNumber;
-    console.log(`Ballot contract deployed at ${contractAddress} and block number ${blockNumber}`);
+    console.log(`Ballot contract deployed at ${contractAddress} and block number ${blockNumber} \n voting token for ballot is on address ${tokenContractAddress}`);
 
 }
 
