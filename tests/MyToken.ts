@@ -52,7 +52,7 @@ describe("MyToken", async () => {
             const account1VotingPower = await tokenContract.getVotes(account1.address);
             expect(account1VotingPower.toNumber()).to.eq(MINT_VALUE / 2);
 
-            const account2DelegateTx = await tokenContract.connect(account1).delegate(account1.address);
+            const account2DelegateTx = await tokenContract.connect(account2).delegate(account2.address);
             await account2DelegateTx.wait();
             const account2VotingPower = await tokenContract.getVotes(account1.address);
             expect(account2VotingPower.toNumber()).to.eq(MINT_VALUE / 2);
