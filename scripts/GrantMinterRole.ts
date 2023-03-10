@@ -1,5 +1,5 @@
-import { ethers } from "ethers";
-import { MyToken__factory } from "../typechain-types";
+import { ethers, utils } from "ethers";
+import { MyToken__factory, MyToken } from "../typechain-types";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -29,20 +29,20 @@ async function main() {
     console.log(`The account ${signer.address} has a balance of ${balance} wei`);
 
     const contract = new MyToken__factory(signer).attach(tokenContractAddress);
-    
-    const account2MinterTx = await contract.grantRole(ethers.utils.keccak256("MINTER_ROLE"), account2);
+        
+    const account2MinterTx = await contract.grantRole(ethers.utils.id("MINTER_ROLE"), account2);
     await account2MinterTx.wait();
     console.log(`Granted minter role to ${account2}`);
 
-    const account3MinterTx = await contract.grantRole(ethers.utils.keccak256("MINTER_ROLE"), account3);
+    const account3MinterTx = await contract.grantRole(ethers.utils.keccak256(utils.toUtf8Bytes("MINTER_ROLE")), account3);
     await account3MinterTx.wait();
     console.log(`Granted minter role to ${account3}`);
 
-    const account4MinterTx = await contract.grantRole(ethers.utils.keccak256("MINTER_ROLE"), account4);
+    const account4MinterTx = await contract.grantRole(ethers.utils.id("MINTER_ROLE"), account4);
     await account4MinterTx.wait();
     console.log(`Granted minter role to ${account4}`);
 
-    const account5MinterTx = await contract.grantRole(ethers.utils.keccak256("MINTER_ROLE"), account5);
+    const account5MinterTx = await contract.grantRole(ethers.utils.id("MINTER_ROLE"), account5);
     await account5MinterTx.wait();
     console.log(`Granted minter role to ${account5}`);
 };
